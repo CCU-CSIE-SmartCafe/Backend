@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace SmartCafe\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -23,6 +23,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        if ($this->app->environment() === 'local' ||
+            $this->app->environment() === 'staging' ||
+            $this->app->environment() === 'alpha') {
+            $this->app->register('Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider');
+            $this->app->register('Barryvdh\Debugbar\ServiceProvider');
+        }
     }
 }

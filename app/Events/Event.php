@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events;
+namespace SmartCafe\Events;
 
 abstract class Event
 {

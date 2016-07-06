@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs;
+namespace SmartCafe\Jobs;
 
 use Illuminate\Bus\Queueable;
 
