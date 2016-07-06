@@ -12,7 +12,6 @@ use Validator;
 
 class RegisterController extends Controller
 {
-
     public function __construct()
     {
     }
@@ -41,7 +40,7 @@ class RegisterController extends Controller
                     'required' => true,
                     'type' => 'string',
                 ],
-            ]
+            ],
         ];
 
         $returns = [
@@ -54,6 +53,7 @@ class RegisterController extends Controller
                 'type' => 'array/string',
             ],
         ];
+
         return response()
                 ->json([
                     'description' => $description,
@@ -76,7 +76,7 @@ class RegisterController extends Controller
         try {
             $this->validator($request);
             $this->createUser($request);
-            
+
             return response()
                     ->json([
                         'status' => true,
@@ -104,9 +104,10 @@ class RegisterController extends Controller
             'name' => 'required|max:255',
             'password' => 'required|min:6',
         ]);
-        
-        if ($validator->fails())
+
+        if ($validator->fails()) {
             throw new ValidateFail($validator->errors());
+        }
     }
 
     /**
@@ -122,5 +123,4 @@ class RegisterController extends Controller
             'password' => bcrypt($request->password),
         ]);
     }
-
 }

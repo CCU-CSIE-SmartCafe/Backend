@@ -16,7 +16,8 @@ class ValidateFail extends Exception
     public function getErrors(): MessageBag
     {
         $errors = json_decode($this->message);
-        $messageBag = new MessageBag((array)$errors);
+        $messageBag = new MessageBag((array) $errors);
+
         return $messageBag;
     }
 }
