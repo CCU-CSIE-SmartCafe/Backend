@@ -100,4 +100,24 @@ class LoginTest extends TestCase
                 'message' => 'Invalid credentials.',
             ]);
     }
+
+    public function testTooManyRequests()
+    {
+        $users = factory(User::class, 30)->make();
+        foreach($users as $user)
+            $this->post('/auth/login', [
+                'email' => $user->email,
+                'password' => $user->password,
+            ]);
+
+        $this->post('/auth/login', [
+            'email' => $users[0]->email,
+            'password' => $users[0]->password,
+        ])
+            ->seeJson([
+                'status' => false,
+                'message' => 'Too many requests.',
+            ])
+            ->seeStatusCode(429);
+    }
 }

@@ -17,6 +17,7 @@ class LoginController extends Controller
 {
     public function __construct()
     {
+        $this->middleware('throttle:30,1', ['only' => ['store']]);
     }
 
     /**
