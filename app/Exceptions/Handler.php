@@ -1,12 +1,16 @@
 <?php
 
-namespace App\Exceptions;
+namespace SmartCafe\Exceptions;
 
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
+use Whoops\Handler\JsonResponseHandler;
+use Whoops\Handler\PrettyPageHandler;
+use Whoops\Run;
 
 class Handler extends ExceptionHandler
 {
@@ -44,6 +48,25 @@ class Handler extends ExceptionHandler
     {
         if ($e instanceof ModelNotFoundException) {
             $e = new NotFoundHttpException($e->getMessage(), $e);
+        }
+
+        if ($e instanceof TooManyRequestsHttpException) {
+            return response()
+                    ->json([
+                        'status' => false,
+                        'message' => 'Too many requests.',
+                    ], 429);
+        }
+
+        if (env('APP_DEBUG')) {
+            $whoops = new Run();
+            if (!$request->ajax()) {
+                $whoops->pushHandler(new PrettyPageHandler());
+            } else {
+                $whoops->pushHandler(new JsonResponseHandler());
+            }
+
+            return $whoops->handleException($e);
         }
 
         return parent::render($request, $e);
