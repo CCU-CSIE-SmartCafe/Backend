@@ -64,7 +64,7 @@ class LoginController extends Controller
             'expire_refresh' => [
                 'description' => 'Token refresh expire timestamp',
                 'type' => 'int',
-            ]
+            ],
         ];
 
         return response()
@@ -128,8 +128,9 @@ class LoginController extends Controller
             'password' => 'required|min:6',
         ]);
 
-        if ($validator->fails())
+        if ($validator->fails()) {
             throw new ValidateFail($validator->errors());
+        }
     }
 
     protected function auth(array $credentials): string

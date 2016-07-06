@@ -102,12 +102,13 @@ class RegisterTest extends TestCase
 
     public function testTooManyRequests()
     {
-        for ($i = 0 ; $i < 10 ; $i++)
+        for ($i = 0; $i < 10; $i++) {
             $this->post('/auth/register', [
                 'email' => str_random().'@gmail.com',
                 'name' => str_random(),
                 'password' => str_random(),
             ]);
+        }
 
         $this->post('/auth/register', [
             'email' => str_random().'@gmail.com',
@@ -119,6 +120,5 @@ class RegisterTest extends TestCase
                 'message' => 'Too many requests.',
             ])
             ->seeStatusCode(429);
-
     }
 }

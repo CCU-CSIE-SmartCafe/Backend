@@ -8,7 +8,6 @@ use SmartCafe\User;
 
 class LoginTest extends TestCase
 {
-
     use UseDatabase;
 
     /**
@@ -55,7 +54,7 @@ class LoginTest extends TestCase
             'expire_refresh' => [
                 'description' => 'Token refresh expire timestamp',
                 'type' => 'int',
-            ]
+            ],
         ];
 
         $this->makeRequest('options', '/auth/login')
@@ -66,18 +65,17 @@ class LoginTest extends TestCase
                 'returns' => $returns,
             ]);
     }
-    
+
     public function testNormalStore()
     {
         $expect['email'] = str_random().'@gmail.com';
         $expect['password'] = str_random();
-        
+
         factory(User::class)->create([
             'email' => $expect['email'],
             'password' => bcrypt($expect['password']),
         ]);
 
-        
         $this->post('/auth/login', [
             'email' => $expect['email'],
             'password' => $expect['password'],
@@ -87,7 +85,7 @@ class LoginTest extends TestCase
                 'message' => 'Login successfully.',
             ]);
     }
-    
+
     public function testInvalidCredential()
     {
         $user = factory(User::class)->make();
@@ -104,11 +102,12 @@ class LoginTest extends TestCase
     public function testTooManyRequests()
     {
         $users = factory(User::class, 30)->make();
-        foreach($users as $user)
+        foreach ($users as $user) {
             $this->post('/auth/login', [
                 'email' => $user->email,
                 'password' => $user->password,
             ]);
+        }
 
         $this->post('/auth/login', [
             'email' => $users[0]->email,
