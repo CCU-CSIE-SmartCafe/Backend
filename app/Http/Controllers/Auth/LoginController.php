@@ -94,7 +94,7 @@ class LoginController extends Controller
             return response()
                     ->json([
                         'status' => true,
-                        'message' => 'Login successfully',
+                        'message' => 'Login successfully.',
                         'token' => $token,
                         'expire' => $expire,
                         'expire_refresh' => $expireRefresh,
@@ -134,7 +134,7 @@ class LoginController extends Controller
     protected function auth(array $credentials): string
     {
         if (!$token = JWTAuth::attempt($credentials)) {
-            throw new Credential('Invalid Credentials');
+            throw new Credential('Invalid credentials.');
         }
 
         return $token;
