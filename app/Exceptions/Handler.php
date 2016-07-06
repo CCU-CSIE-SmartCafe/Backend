@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Whoops\Handler\JsonResponseHandler;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
@@ -49,13 +50,21 @@ class Handler extends ExceptionHandler
             $e = new NotFoundHttpException($e->getMessage(), $e);
         }
 
-        if (env('APP_DEBUG'))
-        {
+        if ($e instanceof TooManyRequestsHttpException) {
+            return response()
+                    ->json([
+                        'status' => false,
+                        'message' => 'Too many requests.',
+                    ], 429);
+        }
+
+        if (env('APP_DEBUG')) {
             $whoops = new Run();
-            if(!$request->ajax())
+            if (!$request->ajax()) {
                 $whoops->pushHandler(new PrettyPageHandler());
-            else
+            } else {
                 $whoops->pushHandler(new JsonResponseHandler());
+            }
 
             return $whoops->handleException($e);
         }
