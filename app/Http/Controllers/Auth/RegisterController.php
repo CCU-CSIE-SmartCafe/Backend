@@ -14,6 +14,7 @@ class RegisterController extends Controller
 {
     public function __construct()
     {
+        $this->middleware('throttle:10,1', ['only' => ['store']]);
     }
 
     /**

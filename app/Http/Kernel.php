@@ -2,6 +2,7 @@
 
 namespace SmartCafe\Http;
 
+use GrahamCampbell\Throttle\Http\Middleware\ThrottleMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -28,5 +29,7 @@ class Kernel extends HttpKernel
         'auth' => \SmartCafe\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'guest' => \SmartCafe\Http\Middleware\RedirectIfAuthenticated::class,
+
+        'throttle' => ThrottleMiddleware::class,
     ];
 }
