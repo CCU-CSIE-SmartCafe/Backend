@@ -22,3 +22,8 @@ Route::group(['prefix' => 'auth'], function () {
     Route::options('/login', 'Auth\LoginController@options');
     Route::post('/login', 'Auth\LoginController@store');
 });
+
+Route::group(['prefix' => 'password'], function() {
+    Route::options('/forget', 'Auth\PasswordForgetController@options');
+    Route::post('/forget', 'Auth\PasswordForgetController@store');
+});
