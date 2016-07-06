@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Whoops\Handler\JsonResponseHandler;
+use Whoops\Handler\PrettyPageHandler;
+use Whoops\Run;
 
 class Handler extends ExceptionHandler
 {
@@ -44,6 +47,17 @@ class Handler extends ExceptionHandler
     {
         if ($e instanceof ModelNotFoundException) {
             $e = new NotFoundHttpException($e->getMessage(), $e);
+        }
+
+        if (env('APP_DEBUG'))
+        {
+            $whoops = new Run();
+            if(!$request->ajax())
+                $whoops->pushHandler(new PrettyPageHandler());
+            else
+                $whoops->pushHandler(new JsonResponseHandler());
+
+            return $whoops->handleException($e);
         }
 
         return parent::render($request, $e);
