@@ -19,6 +19,8 @@ class RegisterController extends Controller
 
     /**
      * Options for api document.
+     *
+     * @return JsonResponse
      */
     public function options(): JsonResponse
     {
