@@ -27,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
             $this->app->environment() === 'staging' ||
             $this->app->environment() === 'alpha') {
             $this->app->register('Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider');
+            $this->app->register('Barryvdh\Debugbar\ServiceProvider');
         }
     }
 }
