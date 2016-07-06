@@ -3,11 +3,14 @@
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use SmartCafe\Tests\UseDatabase;
 
 class RegisterTest extends TestCase
 {
+    use UseDatabase;
+
     /**
-     * Test options method for api documention.
+     * Test options method for api document.
      */
     public function testOptions()
     {

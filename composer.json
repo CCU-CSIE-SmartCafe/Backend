@@ -25,7 +25,8 @@
             "database"
         ],
         "psr-4": {
-            "SmartCafe\\": "app/"
+            "SmartCafe\\": "app/",
+            "SmartCafe\\Tests\\": "tests/"
         }
     },
     "autoload-dev": {
