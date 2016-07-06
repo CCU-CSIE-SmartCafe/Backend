@@ -3,11 +3,14 @@
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use SmartCafe\Tests\UseDatabase;
 
 class RegisterTest extends TestCase
 {
+    use UseDatabase;
+
     /**
-     * Test options method for api documention.
+     * Test options method for api document.
      */
     public function testOptions()
     {
@@ -99,12 +102,13 @@ class RegisterTest extends TestCase
 
     public function testTooManyRequests()
     {
-        for ($i = 0 ; $i < 10 ; $i++)
+        for ($i = 0; $i < 10; $i++) {
             $this->post('/auth/register', [
                 'email' => str_random().'@gmail.com',
                 'name' => str_random(),
                 'password' => str_random(),
             ]);
+        }
 
         $this->post('/auth/register', [
             'email' => str_random().'@gmail.com',
@@ -116,6 +120,5 @@ class RegisterTest extends TestCase
                 'message' => 'Too many requests.',
             ])
             ->seeStatusCode(429);
-
     }
 }

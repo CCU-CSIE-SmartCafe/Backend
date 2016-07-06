@@ -146,6 +146,7 @@ return [
         SmartCafe\Providers\RouteServiceProvider::class,
 
         GrahamCampbell\Throttle\ThrottleServiceProvider::class,
+        Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
     ],
 
     /*
@@ -196,6 +197,8 @@ return [
 
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
         'Throttle' => GrahamCampbell\Throttle\Facades\Throttle::class,
+        'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
+        'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
     ],
 
 ];

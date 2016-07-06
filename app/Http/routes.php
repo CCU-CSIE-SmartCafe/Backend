@@ -18,4 +18,7 @@ Route::get('/', function () {
 Route::group(['prefix' => 'auth'], function () {
     Route::options('/register', 'Auth\RegisterController@options');
     Route::post('/register', 'Auth\RegisterController@store');
+
+    Route::options('/login', 'Auth\LoginController@options');
+    Route::post('/login', 'Auth\LoginController@store');
 });

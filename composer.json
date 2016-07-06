@@ -8,7 +8,8 @@
         "php": ">=7.0",
         "laravel/framework": "5.1.*",
         "predis/predis": "^1.1",
-        "graham-campbell/throttle": "^5.2"
+        "graham-campbell/throttle": "^5.2",
+        "tymon/jwt-auth": "0.5.*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -24,7 +25,8 @@
             "database"
         ],
         "psr-4": {
-            "SmartCafe\\": "app/"
+            "SmartCafe\\": "app/",
+            "SmartCafe\\Tests\\": "tests/"
         }
     },
     "autoload-dev": {

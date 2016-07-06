@@ -2,19 +2,22 @@
 
 namespace SmartCafe\Http\Controllers\Auth;
 
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use SmartCafe\Exceptions\Auth\Login\Credential;
 use SmartCafe\Exceptions\ValidateFail;
 use SmartCafe\Http\Requests;
 use SmartCafe\Http\Controllers\Controller;
-use SmartCafe\User;
+use JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
 use Validator;
 
-class RegisterController extends Controller
+class LoginController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('throttle:10,1', ['only' => ['store']]);
+        $this->middleware('throttle:30,1', ['only' => ['store']]);
     }
 
     /**
@@ -24,17 +27,12 @@ class RegisterController extends Controller
      */
     public function options(): JsonResponse
     {
-        $description = 'Register a new user.';
+        $description = 'Login service for users.';
         $allow = ['POST'];
         $methods = [
             'POST' => [
                 'email' => [
                     'description' => "User's email.",
-                    'required' => true,
-                    'type' => 'string',
-                ],
-                'name' => [
-                    'description' => "User's name.",
                     'required' => true,
                     'type' => 'string',
                 ],
@@ -48,12 +46,24 @@ class RegisterController extends Controller
 
         $returns = [
             'status' => [
-                'description' => 'Is this request successfully?',
+                'description' => 'Does login successfully?',
                 'type' => 'boolean',
             ],
             'message' => [
-                'description' => 'Request message.',
+                'description' => 'Response messages.',
                 'type' => 'array/string',
+            ],
+            'token' => [
+                'description' => 'Token to identify user.',
+                'type' => 'string',
+            ],
+            'expire' => [
+                'description' => 'Token expire timestamp',
+                'type' => 'int',
+            ],
+            'expire_refresh' => [
+                'description' => 'Token refresh expire timestamp',
+                'type' => 'int',
             ],
         ];
 
@@ -78,12 +88,17 @@ class RegisterController extends Controller
     {
         try {
             $this->validator($request);
-            $this->createUser($request);
+            $token = $this->auth($request->only(['email', 'password']));
+            $expire = Carbon::now()->addHour()->timestamp;
+            $expireRefresh = Carbon::now()->addWeeks(2)->timestamp;
 
             return response()
                     ->json([
                         'status' => true,
-                        'message' => 'Register successfully.',
+                        'message' => 'Login successfully.',
+                        'token' => $token,
+                        'expire' => $expire,
+                        'expire_refresh' => $expireRefresh,
                     ]);
         } catch (ValidateFail $e) {
             return response()
@@ -91,20 +106,25 @@ class RegisterController extends Controller
                         'status' => false,
                         'message' => $e->getErrors(),
                     ]);
+        } catch (JWTException $e) {
+            return response()
+                    ->json([
+                        'status' => false,
+                        'message' => 'Server is too busy to create token, please try in minutes again.',
+                    ], 500);
+        } catch (Credential $e) {
+            return response()
+                    ->json([
+                        'status' => false,
+                        'message' => $e->getMessage(),
+                    ]);
         }
     }
 
-    /**
-     * Validate the request data is valid.
-     * 
-     * @param Request $request
-     * @throws ValidateFail
-     */
     protected function validator(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'email' => 'required|email|max:255|unique:users',
-            'name' => 'required|max:255',
+            'email' => 'required|email|max:255',
             'password' => 'required|min:6',
         ]);
 
@@ -113,17 +133,12 @@ class RegisterController extends Controller
         }
     }
 
-    /**
-     * Crate user data in database. 
-     * 
-     * @param Request $request
-     */
-    protected function createUser(Request $request)
+    protected function auth(array $credentials): string
     {
-        User::create([
-            'email' => $request->email,
-            'name' => $request->name,
-            'password' => bcrypt($request->password),
-        ]);
+        if (!$token = JWTAuth::attempt($credentials)) {
+            throw new Credential('Invalid credentials.');
+        }
+
+        return $token;
     }
 }
