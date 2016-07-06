@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace SmartCafe\Http\Controllers\Auth;
 
-use App\User;
+use SmartCafe\User;
 use Validator;
-use App\Http\Controllers\Controller;
+use SmartCafe\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 

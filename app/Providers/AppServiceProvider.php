@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace SmartCafe\Providers;
 
 use Illuminate\Support\ServiceProvider;
 

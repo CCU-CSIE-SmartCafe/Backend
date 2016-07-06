@@ -1,5 +1,5 @@
 suites:
     main:
-        namespace: App
-        psr4_prefix: App
+        namespace: SmartCafe
+        psr4_prefix: SmartCafe
         src_path: app
