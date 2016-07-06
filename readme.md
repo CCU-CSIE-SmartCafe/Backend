@@ -1,27 +1,70 @@
-## Laravel PHP Framework
+## Smart Cafe Backend
+[![Build Status](https://travis-ci.org/CCU-CSIE-SmartCafe/Backend.svg?branch=master)](https://travis-ci.org/CCU-CSIE-SmartCafe/Backend)
 
-[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
-[![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
-[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
+This is the prototype project for CCU Smart Cafe project backend System made by [Laravel](https://laravel.com). 
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, queueing, and caching.
+## Usage
 
-Laravel is accessible, yet powerful, providing powerful tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
+1. Get the *Feature Path*.
+2. Use OPTIONS http method to get api information.
+ 
+## Example
 
-## Official Documentation
+Path: `auth/register`
 
-Documentation for the framework can be found on the [Laravel website](http://laravel.com/docs).
+Method: `OPTIONS`
 
-## Contributing
+```json
+{
+  "description": "Register a new user.",
+  "allow": [
+    "POST"
+  ],
+  "methods": {
+    "POST": {
+      "email": {
+        "description": "User's email.",
+        "required": true,
+        "type": "string"
+      },
+      "name": {
+        "description": "User's name.",
+        "required": true,
+        "type": "string"
+      },
+      "password": {
+        "description": "User's password.",
+        "required": true,
+        "type": "string"
+      }
+    }
+  },
+  "returns": {
+    "status": {
+      "description": "Is this request successfully?",
+      "type": "boolean"
+    },
+    "message": {
+      "description": "Request message.",
+      "type": "array/string"
+    }
+  }
+}
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
+PATH: `auth/register`
 
-## Security Vulnerabilities
+Method: `POST`
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+Parameters: `email`, `name`, `password`
 
-### License
+```json
+{
+  "status": true,
+  "message": "Register successfully."
+}
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+## LICENSE
+
+The Smart Cafe Backend is open-sourced software licensed under the MIT license.
