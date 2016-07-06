@@ -145,6 +145,7 @@ return [
         SmartCafe\Providers\EventServiceProvider::class,
         SmartCafe\Providers\RouteServiceProvider::class,
 
+        GrahamCampbell\Throttle\ThrottleServiceProvider::class,
     ],
 
     /*
@@ -194,6 +195,7 @@ return [
         'View'      => Illuminate\Support\Facades\View::class,
 
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'Throttle' => GrahamCampbell\Throttle\Facades\Throttle::class,
     ],
 
 ];
