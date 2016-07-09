@@ -119,4 +119,18 @@ class LoginTest extends TestCase
             ])
             ->seeStatusCode(429);
     }
+
+    public function testValidator()
+    {
+        $this->post('/auth/login', [
+            'email' => str_random(),
+            'password' => str_random(),
+        ])
+            ->seeJson([
+                'status' => false,
+                'message' => [
+                    'email' => ['The email must be a valid email address.'],
+                ],
+            ]);
+    }
 }
