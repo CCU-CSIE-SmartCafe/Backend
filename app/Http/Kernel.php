@@ -26,10 +26,6 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        'auth' => \SmartCafe\Http\Middleware\Authenticate::class,
-        'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
-        'guest' => \SmartCafe\Http\Middleware\RedirectIfAuthenticated::class,
-
         'throttle' => ThrottleMiddleware::class,
     ];
 }
