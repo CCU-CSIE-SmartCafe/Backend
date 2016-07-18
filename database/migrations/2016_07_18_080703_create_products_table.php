@@ -14,6 +14,7 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('hash', 60);
             $table->string('name');
             $table->integer('prize');
             $table->timestamps();
