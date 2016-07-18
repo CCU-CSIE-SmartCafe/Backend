@@ -43,6 +43,11 @@ class RegisterController extends Controller
                     'required' => true,
                     'type' => 'string',
                 ],
+                'phone' => [
+                    'description' => "User's phone.",
+                    'required' => true,
+                    'type' => 'string',
+                ],
             ],
         ];
 
@@ -106,6 +111,7 @@ class RegisterController extends Controller
             'email' => 'required|email|max:255|unique:users',
             'name' => 'required|max:255',
             'password' => 'required|min:6',
+            'phone' => 'required|max:255|unique:users',
         ]);
 
         if ($validator->fails()) {
@@ -124,6 +130,7 @@ class RegisterController extends Controller
             'email' => $request->email,
             'name' => $request->name,
             'password' => bcrypt($request->password),
+            'phone' => $request->phone,
         ]);
     }
 }
