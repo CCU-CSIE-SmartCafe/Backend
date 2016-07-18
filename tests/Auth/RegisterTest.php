@@ -33,6 +33,11 @@ class RegisterTest extends TestCase
                     'required' => true,
                     'type' => 'string',
                 ],
+                'phone' => [
+                    'description' => "User's phone.",
+                    'required' => true,
+                    'type' => 'string',
+                ],
             ],
         ];
 
@@ -63,11 +68,13 @@ class RegisterTest extends TestCase
     {
         $expected['email'] = str_random(10).'@gmail.com';
         $expected['name'] = str_random(20);
+        $expected['phone'] = str_random(20);
 
         $this->post('/auth/register', [
             'email' => $expected['email'],
             'name' => $expected['name'],
             'password' => str_random(20),
+            'phone' => $expected['phone'],
         ])
             ->seeJson([
                 'status' => true,
@@ -80,17 +87,20 @@ class RegisterTest extends TestCase
     {
         $expected['email'] = str_random(10).'@gmail.com';
         $expected['name'] = str_random(20);
+        $expected['phone'] = str_random(20);
 
         $this->post('/auth/register', [
             'email' => $expected['email'],
             'name' => $expected['name'],
             'password' => str_random(20),
+            'phone' => $expected['phone'],
         ]);
 
         $this->post('/auth/register', [
             'email' => $expected['email'],
             'name' => str_random(20),
             'password' => str_random(20),
+            'phone' => str_random(20),
         ])
             ->seeJson([
                 'status' => false,
